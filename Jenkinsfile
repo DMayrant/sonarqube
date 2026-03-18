@@ -12,12 +12,16 @@ pipeline {
                 script {
                     withSonarQubeEnv('sonarqube') {
                         sh '''
-                        echo "SONAR HOST: $SONAR_HOST_URL"
+                        set -eux 
 
+                        whoami
+                        echo "Testing Docker access..."
                         docker ps
 
+                        echo "Pulling scanner..."
+                        docker pull sonarsource/sonar-scann
+                        
                         echo "Running sonar scanner..."
-                       
                         docker run --rm \
                          -e SONAR_HOST_URL=$SONAR_HOST_URL \
                          -e SONAR_LOGIN=$SONAR_AUTH_TOKEN \
