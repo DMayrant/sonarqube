@@ -2,6 +2,7 @@ services:
   jenkins:
     image: jenkins/jenkins:lts # Uses the official Jenkins LTS image from Docker Hub
     container_name: jenkins
+    user: root
     ports:
       - "8080:8080" # Web interface port
       - "50000:50000" # JNLP agent port for build agents
