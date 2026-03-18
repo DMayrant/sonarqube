@@ -1,0 +1,13 @@
+services:
+  jenkins:
+    image: jenkins/jenkins:lts # Uses the official Jenkins LTS image from Docker Hub
+    container_name: jenkins
+    ports:
+      - "8080:8080" # Web interface port
+      - "50000:50000" # JNLP agent port for build agents
+    volumes:
+      - "./jenkins_data:/var/jenkins_home" # Maps a local directory to the Jenkins home directory for data persistence
+      - "/var/run/docker.sock:/var/run/docker.sock" # (Optional) Mounts the Docker socket to allow Jenkins to run Docker commands
+    restart: unless-stopped
+volumes:
+  jenkins_data:
