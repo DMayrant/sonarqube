@@ -30,9 +30,7 @@ pipeline {
                 -v /etc:/etc:ro \
                 -v /var:/var:ro \
                 -v /usr:/usr:ro \
-                -v /boot:/boot:ro \
-                aquasec/kube-bench:latest \
-                --json > kube-bench.json || true
+                aquasec/kube-bench:latest --json > kube-bench.json || true
                 '''
             }
         }
