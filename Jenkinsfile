@@ -27,7 +27,6 @@ pipeline {
                 echo 'Running Kube-bench...'
                 docker run --rm \
                 --pid=host \
-                -v /etc:/etc:ro \
                 -v /var:/var:ro \
                 -v /usr:/usr:ro \
                 aquasec/kube-bench:latest --json > kube-bench.json || true
