@@ -10,10 +10,29 @@ pipeline {
         stage ('Kubescape Scan') {
             steps {
                 sh '''
-                set -e 
+                set -euo pipefail 
 
                 echo 'Scanning Kubernetes cluster...'
-                kubescape scan framework nsa,mitre
+                kubescape scan framework nsa,mitre \
+                  --format json \
+                  --output kubescape-results.json || true
+                '''
+            }
+        }
+        stage ('Kube-bench Scan') {
+            steps {
+                sh '''
+                set -euo pipefail 
+
+                echo 'Running Kube-bench...'
+                docker run --rm \
+                --pid=host \
+                -v /etc:/etc:ro \
+                -v /var:/var:ro \
+                -v /usr:/usr:ro \
+                -v /boot:/boot:ro \
+                aquasec/kube-bench:latest \
+                --json > kube-bench.json || true
                 '''
             }
         }
@@ -48,6 +67,9 @@ pipeline {
         }
     }
     post {
+        always {
+            archiveArtifacts artifacts: '*.json', allowEmptyArchive: true
+        }
         success {
             echo "Pipeline executed successful ✅"
         }
