@@ -29,7 +29,7 @@ pipeline {
                 --pid=host \
                 -v /var:/var:ro \
                 -v /usr:/usr:ro \
-                aquasec/kube-bench:latest --json > kube-bench.json || true
+                aquasec/kube-bench:v0.6.15 --json > kube-bench.json || true
                 '''
             }
         }
